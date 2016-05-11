@@ -1,0 +1,51 @@
+<head>
+    <meta charset="utf-8">
+    <style type="text/css">
+        .flexbox-order  {
+            display: flex;
+            flex-direction: column;
+        }
+        .flexbox-order > [data-order="1"] { order: 1; }
+        .flexbox-order > [data-order="2"] { order: 2; }
+        .flexbox-order > [data-order="3"] { order: 3; }
+
+        [data-timestamp]:after {
+            content: 'received after ' attr(data-timestamp);
+            display: block;
+            padding: .1em;
+            background-color: greenyellow;
+        }
+
+
+        html {
+            box-sizing: border-box;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            padding: 0;
+            margin: 0 0 6rem;
+        }
+
+        main {
+            padding: .5rem 1rem;
+        }
+
+        figure {
+            padding: .5rem;
+            background-color: #EFEFEF;
+        }
+
+        figcaption {
+            font-style: italic;
+            color: #4F4D3F;
+            margin-top: .5rem;
+        }
+
+        img {
+            max-width: 100%;
+        }
+    </style>
+</head>

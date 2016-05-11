@@ -1,0 +1,18 @@
+{
+  "name": "flexbox-stream",
+  "version": "1.0.0",
+  "description": "Demo of HTML page streamed in randomly ordered chunks and reordered in the browser using flexbox",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jasper Moelker <jasper@voorhoede.nl> (https://voorhoede.nl/)",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.13.4"
+  },
+  "devDependencies": {
+    "nodemon": "1.9.2"
+  }
+}

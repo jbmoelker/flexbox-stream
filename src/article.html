@@ -1,0 +1,82 @@
+<style type="text/css">
+    .figure-result div {
+        padding: .5em;
+        border: 1px solid blue;
+    }
+</style>
+
+<article>
+    <h2>Why?</h2>
+    <p>
+        JavaScript, entire Single Page App frameworks and an App Shell Architecture are commonly used to get something
+        on the page quickly, and then asynchronously get the rest of the content. Getting all content might take a while
+        and we wouldn't want the user to have to stare at a blank page until the server has been able to compose all
+        content. This could be because the server has to query databases, fetch remote resources etc to get all the content.
+        But that doesn't mean the server can't already start the response. By using a
+        <a href="https://en.wikipedia.org/wiki/Chunked_transfer_encoding">chunked</a> stream (HTTP/1.1) the server can
+        also start a response straight away, and add more content to the response later. So no staring add a blank page,
+        but also no JavaScript is needed.
+    </p>
+
+    <h2>Unordered stream</h2>
+    <p>
+        If the server just adds more content to the response whenever the content is ready, the content may get out of
+        order, which would be confusing to the user:
+    </p>
+    <figure>
+<pre><code>
+&lt;main>
+    &lt;div>item <strong>2</strong>&lt;/div>
+    &lt;div>item <strong>3</strong>&lt;/div>
+    &lt;div>item <strong>1</strong>&lt;/div>
+&lt;/main>
+</code></pre>
+        <div class="figure-result">
+            <div>item 2</div>
+            <div>item 3</div>
+            <div>item 1</div>
+        </div>
+        <figcaption>Possible result of content items being streamed in chunks whenever they are ready.</figcaption>
+    </figure>
+    <p>
+        Just because item 2 was ready first and item 1 only just after item 3, doesn't mean we want the order to be
+        item 2, item 3, item 1: But we can remedy that.
+    </p>
+
+    <h2>Order with flexbox</h2>
+    <p>
+        One of flexbox's properties is <code>{ order: [Number]; }</code>, which allows us to change the visual order of
+        our content items regardless of their order in the source code:
+    </p>
+    <figure>
+<pre><code>
+.flexbox-order {
+    display: flex;
+    flex-direction: column;
+}
+.flexbox-order > [data-order="1"] { order: 1; }
+.flexbox-order > [data-order="2"] { order: 2; }
+.flexbox-order > [data-order="3"] { order: 3; }
+</code></pre>
+<pre><code>
+&lt;main class="flexbox-order">
+    &lt;div data-order="2">item <strong>2</strong>&lt;/div>
+    &lt;div data-order="3">item <strong>3</strong>&lt;/div>
+    &lt;div data-order="1">item <strong>1</strong>&lt;/div>
+&lt;/main>
+</code></pre>
+        <div class="figure-result flexbox-order">
+            <div data-order="2">item 2</div>
+            <div data-order="3">item 3</div>
+            <div data-order="1">item 1</div>
+        </div>
+        <figcaption>Correct content order by using flexbox <code>order</code>.</figcaption>
+    </figure>
+
+    <h2>Caveats</h2>
+    <ul>
+        <li>All chunks need to be on the same level (siblings) in the DOM.</li>
+        <li>Content may shift when new content arrives (could possible solve with placeholders).</li>
+        <li>Tab order matches source code order not display order, which is clearly confusing.</li>
+    </ul>
+</article>
