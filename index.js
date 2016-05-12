@@ -59,11 +59,7 @@ app.get('/', (req, res) => {
     res.write(fs.readFileSync('src/footer.html'));
     res.write('<main class="flexbox-order">');
 
-
     contentStream(files, tail, timeStarted).pipe(res);
-    // Note: should be able to write everything as piped streams? But closes when combined with timeout :-/
-    // setTimeout(() => fs.createReadStream('src/later.html').pipe(res), 1000);
-    // fs.createReadStream('src/header.html').pipe(res);
 });
 
 app.listen(port, () => console.log('Demo server available on http://localhost:' + port));
